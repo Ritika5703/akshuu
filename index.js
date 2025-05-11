@@ -1,269 +1,712 @@
-// Create balloons
-function createBalloons() {
-  const colors = [
-    "#ffcad4",
-    "#f4acb7",
-    "#9d8189",
-    "#d8e2dc",
-    "#ffe5d9",
-    "#ffcad4",
-    "#f9dcc4",
-    "#fec89a",
-  ];
-  const balloonsContainer = document.getElementById("balloons-container");
+// Wait for DOM to fully load
+document.addEventListener("DOMContentLoaded", function () {
+  // Initialize components
+  initLoadingScreen();
+  initThemeSwitcher();
+  initFloatingNav();
+  initParallax();
+  initSectionAnimation();
+  initGreetingCard();
+  initGallery();
+  initMemories();
+  initCake();
+  initWishesForm();
+  initBalloons();
+  initMusicPlayer();
+});
 
-  for (let i = 0; i < 20; i++) {
-    const balloon = document.createElement("div");
-    balloon.className = "balloon";
+// Loading Screen
+function initLoadingScreen() {
+  const loadingScreen = document.getElementById("loading-screen");
+  if (!loadingScreen) return;
 
-    // Random position, size, color, and animation delay
-    const size = Math.floor(Math.random() * 30) + 30;
-    const left = Math.floor(Math.random() * 100);
-    const delay = Math.random() * 15;
-
-    balloon.style.width = size + "px";
-    balloon.style.height = size * 1.2 + "px";
-    balloon.style.left = left + "%";
-    balloon.style.backgroundColor =
-      colors[Math.floor(Math.random() * colors.length)];
-    balloon.style.animationDelay = delay + "s";
-
-    balloonsContainer.appendChild(balloon);
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      loadingScreen.style.opacity = "0";
+      loadingScreen.style.visibility = "hidden";
+    }, 1500);
+  });
+}
+function hideLoadingScreen() {
+  const loadingScreen = document.getElementById("loading-screen");
+  if (loadingScreen) {
+    loadingScreen.style.transition = "opacity 1s ease";
+    loadingScreen.style.opacity = "0";
+    setTimeout(() => {
+      loadingScreen.style.display = "none";
+    }, 1000);
   }
 }
 
-// Create confetti
-function createConfetti() {
-  const colors = [
-    "#ffcad4",
-    "#f4acb7",
-    "#9d8189",
-    "#d8e2dc",
-    "#ffe5d9",
-    "#f9dcc4",
-    "#fec89a",
-    "#ffb3c6",
-  ];
-  const confettiCount = 150;
+document.getElementById("main-content").style.opacity = "1";
 
-  for (let i = 0; i < confettiCount; i++) {
-    const confetti = document.createElement("div");
-    confetti.className = "confetti";
+// Try to hide when all resources are loaded
+window.addEventListener("load", () => {
+  setTimeout(hideLoadingScreen, 1500);
+});
 
-    // Random position, size, color, and animation
-    const size = Math.floor(Math.random() * 10) + 5;
-    const left = Math.floor(Math.random() * 100);
-    const backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    const delay = Math.random() * 5;
-    const duration = Math.random() * 5 + 5;
+// Fallback: hide after 5 seconds in case 'load' fails
+setTimeout(hideLoadingScreen, 5000);
 
-    confetti.style.width = size + "px";
-    confetti.style.height = size + "px";
-    confetti.style.left = left + "%";
-    confetti.style.backgroundColor = backgroundColor;
+// Theme Switcher
+function initThemeSwitcher() {
+  const themeOptions = document.querySelectorAll(".theme-option");
+  const body = document.body;
 
-    // Set animation
-    confetti.style.animation = `fall ${duration}s linear ${delay}s infinite`;
-
-    document.body.appendChild(confetti);
+  // Load saved theme from localStorage if available
+  const savedTheme = localStorage.getItem("birthday-theme");
+  if (savedTheme) {
+    body.className = savedTheme;
   }
-}
 
-// Define fall animation in JavaScript
-const styleSheet = document.createElement("style");
-styleSheet.type = "text/css";
-styleSheet.innerText = `
-      @keyframes fall {
-          0% {
-              transform: translateY(-100px) rotate(0deg);
-              opacity: 1;
-          }
-          100% {
-              transform: translateY(100vh) rotate(360deg);
-              opacity: 0;
-          }
-      }
-  `;
-document.head.appendChild(styleSheet);
+  themeOptions.forEach((option) => {
+    option.addEventListener("click", function () {
+      const theme = this.getAttribute("data-theme");
+      body.className = theme ? "theme-" + theme : "";
+      localStorage.setItem("birthday-theme", body.className);
+    });
+  });
 
-// Section visibility animation
-function checkSectionVisibility() {
-  const sections = document.querySelectorAll("section");
+  // Mini theme switcher in header
+  const themeSwitcherOptions = document.querySelectorAll(
+    "#theme-switcher .theme-option"
+  );
+  themeSwitcherOptions.forEach((option) => {
+    option.addEventListener("click", function () {
+      const theme = this.getAttribute("data-theme");
+      body.className = theme ? "theme-" + theme : "";
+      localStorage.setItem("birthday-theme", body.className);
 
-  sections.forEach((section) => {
-    const sectionTop = section.getBoundingClientRect().top;
-    const windowHeight = window.innerHeight;
-
-    if (sectionTop < windowHeight - 100) {
-      section.classList.add("active");
-    }
+      // Update active state
+      themeSwitcherOptions.forEach((opt) => opt.classList.remove("active"));
+      this.classList.add("active");
+    });
   });
 }
 
-// Gallery modal functionality
-function setupGallery() {
+// Floating Navigation
+function initFloatingNav() {
+  const floatingNav = document.getElementById("floating-nav");
+  const navToggle = document.querySelector(".nav-toggle");
+  const navItems = document.querySelectorAll("#floating-nav li");
+  const sections = document.querySelectorAll(".section");
+
+  if (!floatingNav) return;
+
+  // Toggle navigation visibility
+  if (navToggle) {
+    navToggle.addEventListener("click", function () {
+      floatingNav.classList.toggle("hidden");
+    });
+  }
+
+  // Scroll to section when nav item is clicked
+  navItems.forEach((item) => {
+    item.addEventListener("click", function () {
+      const targetId = this.getAttribute("data-target");
+      const targetSection = document.getElementById(targetId);
+
+      if (targetSection) {
+        window.scrollTo({
+          top: targetSection.offsetTop - 70,
+          behavior: "smooth",
+        });
+      }
+    });
+  });
+
+  // Update active nav item on scroll
+  window.addEventListener("scroll", function () {
+    let current = "";
+
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop - 100;
+      const sectionHeight = section.clientHeight;
+      if (
+        pageYOffset >= sectionTop &&
+        pageYOffset < sectionTop + sectionHeight
+      ) {
+        current = section.getAttribute("id");
+      }
+    });
+
+    navItems.forEach((item) => {
+      item.classList.remove("active");
+      if (item.getAttribute("data-target") === current) {
+        item.classList.add("active");
+      }
+    });
+  });
+}
+
+// Parallax Effect
+function initParallax() {
+  const parallaxLayers = document.querySelectorAll(".parallax-layer");
+
+  window.addEventListener("scroll", function () {
+    const scrollPosition = window.pageYOffset;
+
+    parallaxLayers.forEach((layer, index) => {
+      const speed = (index + 1) * 0.2;
+      layer.style.transform = `translateY(${scrollPosition * speed}px)`;
+    });
+  });
+}
+
+// Section Animation
+function initSectionAnimation() {
+  const sections = document.querySelectorAll(".section");
+
+  const observerOptions = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.2,
+  };
+
+  const sectionObserver = new IntersectionObserver(function (
+    entries,
+    observer
+  ) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  observerOptions);
+
+  sections.forEach((section) => {
+    sectionObserver.observe(section);
+  });
+}
+
+// Greeting Card Flip
+function initGreetingCard() {
+  const greetingCard = document.querySelector(".greeting-card");
+  if (!greetingCard) return;
+
+  greetingCard.addEventListener("click", function () {
+    this.querySelector(".greeting-card-inner").classList.toggle("flipped");
+  });
+}
+
+// Gallery and Modal
+function initGallery() {
   const galleryItems = document.querySelectorAll(".gallery-item");
   const modal = document.querySelector(".modal");
   const modalImg = document.querySelector(".modal-img");
   const modalCaption = document.querySelector(".modal-caption");
   const closeModal = document.querySelector(".close-modal");
+  const prevBtn = document.querySelector(".prev-photo");
+  const nextBtn = document.querySelector(".next-photo");
+  let currentIndex = 0;
 
-  galleryItems.forEach((item) => {
-    item.addEventListener("click", () => {
-      const imgSrc = item.querySelector("img").src;
-      const caption = item.querySelector(".gallery-caption").textContent;
+  if (!galleryItems.length || !modal) return;
 
-      modalImg.src = imgSrc;
+  // Filter gallery items
+  const filterBtns = document.querySelectorAll(".filter-btn");
+  if (filterBtns.length) {
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const filter = this.getAttribute("data-filter");
+
+        filterBtns.forEach((btn) => btn.classList.remove("active"));
+        this.classList.add("active");
+
+        galleryItems.forEach((item) => {
+          if (filter === "all" || item.classList.contains(filter)) {
+            item.style.display = "block";
+          } else {
+            item.style.display = "none";
+          }
+        });
+      });
+    });
+  }
+
+  // Open modal when gallery item is clicked
+  galleryItems.forEach((item, index) => {
+    item.addEventListener("click", function () {
+      const imgSrc = this.querySelector("img").getAttribute("src");
+      const caption = this.querySelector(".gallery-caption").textContent;
+
+      modalImg.setAttribute("src", imgSrc);
       modalCaption.textContent = caption;
       modal.classList.add("active");
+      currentIndex = index;
+
+      // Disable scrolling on body
       document.body.style.overflow = "hidden";
     });
   });
 
-  closeModal.addEventListener("click", () => {
-    modal.classList.remove("active");
-    document.body.style.overflow = "auto";
-  });
-
-  // Close modal on outside click
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
+  // Close modal
+  if (closeModal) {
+    closeModal.addEventListener("click", function () {
       modal.classList.remove("active");
       document.body.style.overflow = "auto";
+    });
+  }
+
+  // Navigate through gallery with arrow keys
+  document.addEventListener("keydown", function (e) {
+    if (!modal.classList.contains("active")) return;
+
+    if (e.key === "Escape") {
+      modal.classList.remove("active");
+      document.body.style.overflow = "auto";
+    } else if (e.key === "ArrowLeft") {
+      navigateGallery(-1);
+    } else if (e.key === "ArrowRight") {
+      navigateGallery(1);
     }
   });
+
+  // Navigation buttons
+  if (prevBtn) {
+    prevBtn.addEventListener("click", function () {
+      navigateGallery(-1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", function () {
+      navigateGallery(1);
+    });
+  }
+
+  // Navigate through gallery
+  function navigateGallery(direction) {
+    currentIndex += direction;
+
+    if (currentIndex < 0) {
+      currentIndex = galleryItems.length - 1;
+    } else if (currentIndex >= galleryItems.length) {
+      currentIndex = 0;
+    }
+
+    const imgSrc = galleryItems[currentIndex]
+      .querySelector("img")
+      .getAttribute("src");
+    const caption =
+      galleryItems[currentIndex].querySelector(".gallery-caption").textContent;
+
+    modalImg.setAttribute("src", imgSrc);
+    modalCaption.textContent = caption;
+  }
 }
 
-// Birthday cake functionality
-function setupCake() {
+// Memories Timeline
+function initMemories() {
+  const memoryItems = document.querySelectorAll(".memory-item");
+  const prevBtn = document.querySelector(".memory-nav.prev");
+  const nextBtn = document.querySelector(".memory-nav.next");
+  const indicator = document.querySelector(".memory-indicator");
+  let currentIndex = 0;
+
+  if (!memoryItems.length) return;
+
+  // Show first memory
+  if (memoryItems.length > 0) {
+    memoryItems[0].classList.add("active");
+    updateIndicator();
+  }
+
+  // Navigation buttons
+  if (prevBtn) {
+    prevBtn.addEventListener("click", function () {
+      navigateMemories(-1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", function () {
+      navigateMemories(1);
+    });
+  }
+
+  // Navigate through memories
+  function navigateMemories(direction) {
+    memoryItems[currentIndex].classList.remove("active");
+
+    currentIndex += direction;
+
+    if (currentIndex < 0) {
+      currentIndex = memoryItems.length - 1;
+    } else if (currentIndex >= memoryItems.length) {
+      currentIndex = 0;
+    }
+
+    memoryItems[currentIndex].classList.add("active");
+    updateIndicator();
+  }
+
+  // Update indicator text
+  function updateIndicator() {
+    if (indicator) {
+      indicator.textContent = `${currentIndex + 1} / ${memoryItems.length}`;
+    }
+  }
+}
+
+// Birthday Cake
+function initCake() {
   const cake = document.querySelector(".cake-container");
   const flame = document.querySelector(".flame");
+  const cakeButton = document.querySelector(".cake-button");
 
-  cake.addEventListener("click", () => {
-    // Animation for blowing out the candle
-    flame.style.opacity = "0";
+  if (!cake || !flame) return;
 
-    // Show birthday message
-    setTimeout(() => {
-      flame.style.display = "none";
-      showBirthdayMessage();
+  // Blow out candle on click
+  cake.addEventListener("click", function () {
+    flame.classList.add("blow-out");
+
+    // Show confetti effect
+    createConfetti();
+
+    // Play sound effect if available
+    const blowSound = document.getElementById("blow-sound");
+    if (blowSound) {
+      blowSound.play();
+    }
+
+    // Reset candle after some time
+    setTimeout(function () {
+      flame.classList.remove("blow-out");
+    }, 5000);
+  });
+
+  // Alternative blow button
+  if (cakeButton) {
+    cakeButton.addEventListener("click", function () {
+      flame.classList.add("blow-out");
       createConfetti();
-    }, 500);
-  });
+
+      const blowSound = document.getElementById("blow-sound");
+      if (blowSound) {
+        blowSound.play();
+      }
+
+      setTimeout(function () {
+        flame.classList.remove("blow-out");
+      }, 5000);
+    });
+  }
+
+  // Speech recognition for blowing
+  if (window.webkitSpeechRecognition) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onresult = function (event) {
+      const transcript = event.results[0][0].transcript.toLowerCase();
+      if (
+        transcript.includes("blow") ||
+        transcript.includes("happy birthday")
+      ) {
+        flame.classList.add("blow-out");
+        createConfetti();
+
+        setTimeout(function () {
+          flame.classList.remove("blow-out");
+        }, 5000);
+      }
+    };
+
+    // Start recognition when mic button is clicked
+    const micButton = document.querySelector(".mic-icon");
+    if (micButton) {
+      micButton.addEventListener("click", function () {
+        recognition.start();
+      });
+    }
+  }
+
+  // Create confetti effect
+  function createConfetti() {
+    const confettiContainer = document.createElement("div");
+    confettiContainer.className = "confetti-container";
+    document.body.appendChild(confettiContainer);
+
+    const colors = ["#ffcad4", "#f4acb7", "#9d8189", "#ff90b3", "#b5d8cc"];
+
+    for (let i = 0; i < 100; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+      confetti.style.backgroundColor =
+        colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.animationDuration = Math.random() * 3 + 2 + "s";
+      confetti.style.animationDelay = Math.random() * 5 + "s";
+      confettiContainer.appendChild(confetti);
+    }
+
+    setTimeout(function () {
+      confettiContainer.remove();
+    }, 8000);
+  }
 }
 
-// Show birthday message
-function showBirthdayMessage() {
-  const messageDiv = document.createElement("div");
-  messageDiv.className = "birthday-message";
-  messageDiv.style.position = "fixed";
-  messageDiv.style.top = "50%";
-  messageDiv.style.left = "50%";
-  messageDiv.style.transform = "translate(-50%, -50%)";
-  messageDiv.style.backgroundColor = "white";
-  messageDiv.style.padding = "30px";
-  messageDiv.style.borderRadius = "20px";
-  messageDiv.style.boxShadow = "0 10px 30px rgba(244, 172, 183, 0.5)";
-  messageDiv.style.zIndex = "1000";
-  messageDiv.style.maxWidth = "80%";
-  messageDiv.style.textAlign = "center";
-
-  messageDiv.innerHTML = `
-          <h2 style="color: #f4acb7; margin-bottom: 20px;">Your wish has been made!</h2>
-          <p style="font-size: 1.2rem; margin-bottom: 20px;">May all your dreams come true this year and always!</p>
-          <button class="btn" style="margin-top: 10px;" id="close-message">Continue Celebrating</button>
-      `;
-
-  document.body.appendChild(messageDiv);
-
-  document.getElementById("close-message").addEventListener("click", () => {
-    document.body.removeChild(messageDiv);
-  });
-}
-
-// Handle birthday wishes form
-function setupWishForm() {
-  const form = document.getElementById("birthday-wish-form");
+// Wishes Form
+function initWishesForm() {
+  const wishesForm = document.getElementById("wishes-form");
   const wishesContainer = document.getElementById("wishes-container");
+  const emojis = document.querySelectorAll(".emoji");
+  let selectedEmoji = "❤️";
 
-  form.addEventListener("submit", (e) => {
+  if (!wishesForm || !wishesContainer) return;
+
+  // Load existing wishes from localStorage
+  loadWishes();
+
+  // Select emoji
+  if (emojis.length) {
+    emojis.forEach((emoji) => {
+      emoji.addEventListener("click", function () {
+        emojis.forEach((e) => e.classList.remove("selected"));
+        this.classList.add("selected");
+        selectedEmoji = this.textContent;
+      });
+    });
+  }
+
+  // Submit new wish
+  wishesForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // Get form values
-    const name = document.getElementById("name").value;
-    const message = document.getElementById("message").value;
+    const nameInput = document.getElementById("wish-name");
+    const messageInput = document.getElementById("wish-message");
 
-    // Create new wish card
+    if (!nameInput || !messageInput) return;
+    if (!nameInput.value.trim() || !messageInput.value.trim()) {
+      alert("Please fill in your name and message!");
+      return;
+    }
+
+    const newWish = {
+      name: nameInput.value.trim(),
+      message: messageInput.value.trim(),
+      emoji: selectedEmoji,
+      time: new Date().toLocaleString(),
+    };
+
+    // Add wish to the display
+    addWishToDisplay(newWish);
+
+    // Save to localStorage
+    saveWish(newWish);
+
+    // Reset form
+    wishesForm.reset();
+    emojis.forEach((e) => e.classList.remove("selected"));
+    emojis[0].classList.add("selected");
+    selectedEmoji = "❤️";
+  });
+
+  // Add wish to display
+  function addWishToDisplay(wish) {
     const wishCard = document.createElement("div");
     wishCard.className = "wish-card";
+
     wishCard.innerHTML = `
-              <div class="wish-sender">${name}</div>
-              <div class="wish-message">${message}</div>
-          `;
+      <div class="wish-emoji">${wish.emoji}</div>
+      <div class="wish-content">
+        <div class="wish-sender">${wish.name}</div>
+        <div class="wish-message">${wish.message}</div>
+        <div class="wish-time">${wish.time}</div>
+      </div>
+    `;
 
-    // Add the new wish to the top
-    wishesContainer.insertBefore(wishCard, wishesContainer.firstChild);
+    wishesContainer.prepend(wishCard);
 
-    // Clear form
-    form.reset();
+    // Add entrance animation
+    wishCard.style.opacity = "0";
+    wishCard.style.transform = "translateY(20px)";
 
-    // Show confirmation
-    alert("Your birthday wish has been sent!");
-  });
+    setTimeout(function () {
+      wishCard.style.opacity = "1";
+      wishCard.style.transform = "translateY(0)";
+    }, 10);
+  }
+
+  // Save wish to localStorage
+  function saveWish(wish) {
+    let wishes = JSON.parse(localStorage.getItem("birthday-wishes") || "[]");
+    wishes.push(wish);
+    localStorage.setItem("birthday-wishes", JSON.stringify(wishes));
+  }
+
+  // Load wishes from localStorage
+  function loadWishes() {
+    const wishes = JSON.parse(localStorage.getItem("birthday-wishes") || "[]");
+
+    wishesContainer.innerHTML = ""; // Clear container
+
+    wishes.reverse().forEach((wish) => {
+      addWishToDisplay(wish);
+    });
+  }
 }
 
-// Music player functionality
-function setupMusicPlayer() {
+// Floating Balloons
+function initBalloons() {
+  const balloonsContainer = document.getElementById("balloons-container");
+  if (!balloonsContainer) return;
+
+  const colors = ["#ffcad4", "#f4acb7", "#9d8189", "#d8e2dc", "#ece4db"];
+  const count = 15;
+
+  // Create balloons
+  for (let i = 0; i < count; i++) {
+    createBalloon();
+  }
+
+  // Create balloon at intervals
+  setInterval(createBalloon, 3000);
+
+  function createBalloon() {
+    const balloon = document.createElement("div");
+    balloon.className = "balloon";
+
+    // Random properties
+    const size = Math.random() * 30 + 30;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const left = Math.random() * 100;
+    const animationDuration = Math.random() * 10 + 10;
+    const delay = Math.random() * 5;
+
+    // Set styles
+    balloon.style.width = `${size}px`;
+    balloon.style.height = `${size * 1.2}px`;
+    balloon.style.backgroundColor = color;
+    balloon.style.left = `${left}%`;
+    balloon.style.animationDuration = `${animationDuration}s`;
+    balloon.style.animationDelay = `${delay}s`;
+
+    // Add to container
+    balloonsContainer.appendChild(balloon);
+
+    // Remove after animation
+    setTimeout(() => {
+      balloon.remove();
+    }, (animationDuration + delay) * 1000);
+  }
+}
+
+// Music Player
+function initMusicPlayer() {
   const musicToggle = document.getElementById("music-toggle");
   const music = document.getElementById("birthday-music");
-  const musicIcon = musicToggle.querySelector("i");
   let isPlaying = false;
 
-  // Since we don't have an actual audio file, we'll simulate the behavior
-  musicToggle.addEventListener("click", () => {
+  if (!musicToggle || !music) return;
+
+  // Play/pause on click
+  musicToggle.addEventListener("click", function () {
     if (isPlaying) {
-      // Pause music
       music.pause();
-      musicIcon.className = "fas fa-music";
+      musicToggle.innerHTML = '<i class="fas fa-music"></i>';
     } else {
-      // Play music
-      music.play();
-      musicIcon.className = "fas fa-pause";
+      music.play().catch((error) => {
+        console.log("Audio playback was prevented: ", error);
+      });
+      musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
     }
 
     isPlaying = !isPlaying;
   });
-}
 
-// Smooth scrolling for navigation
-function setupSmoothScrolling() {
-  const navLinks = document.querySelectorAll("nav a");
-
-  navLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-
-      const targetId = link.getAttribute("href");
-      const targetElement = document.querySelector(targetId);
-
-      window.scrollTo({
-        top: targetElement.offsetTop - 100,
-        behavior: "smooth",
-      });
-    });
+  // Update button when audio ends
+  music.addEventListener("ended", function () {
+    isPlaying = false;
+    musicToggle.innerHTML = '<i class="fas fa-music"></i>';
   });
 }
 
-// Initialize everything when the page loads
-window.addEventListener("DOMContentLoaded", () => {
-  createBalloons();
-  checkSectionVisibility();
-  setupGallery();
-  setupCake();
-  setupWishForm();
-  setupMusicPlayer();
-  setupSmoothScrolling();
+// Customization Settings
+function initCustomization() {
+  const themeOptions = document.querySelectorAll(".theme-preview");
+  const toggles = document.querySelectorAll(".customize-toggle");
 
-  // Check section visibility on scroll
-  window.addEventListener("scroll", checkSectionVisibility);
+  if (!themeOptions.length) return;
+
+  // Theme selection
+  themeOptions.forEach((option) => {
+    option.addEventListener("click", function () {
+      const theme = this.getAttribute("data-theme");
+      document.body.className = theme ? "theme-" + theme : "";
+      localStorage.setItem("birthday-theme", document.body.className);
+
+      // Update active state
+      themeOptions.forEach((opt) => opt.classList.remove("active"));
+      this.classList.add("active");
+    });
+  });
+
+  // Toggle features
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("change", function () {
+      const feature = this.getAttribute("data-feature");
+      const isEnabled = this.checked;
+
+      // Save preference
+      localStorage.setItem("birthday-" + feature, isEnabled);
+
+      // Toggle feature
+      switch (feature) {
+        case "animations":
+          document.body.classList.toggle("no-animations", !isEnabled);
+          break;
+        case "music":
+          const music = document.getElementById("birthday-music");
+          if (music) {
+            if (isEnabled) {
+              music.volume = 0.5;
+            } else {
+              music.pause();
+              music.volume = 0;
+            }
+          }
+          break;
+        case "balloons":
+          const balloonsContainer =
+            document.getElementById("balloons-container");
+          if (balloonsContainer) {
+            balloonsContainer.style.display = isEnabled ? "block" : "none";
+          }
+          break;
+      }
+    });
+
+    // Load saved preferences
+    const feature = toggle.getAttribute("data-feature");
+    const savedPreference = localStorage.getItem("birthday-" + feature);
+
+    if (savedPreference !== null) {
+      toggle.checked = savedPreference === "true";
+      // Trigger change event to apply settings
+      const event = new Event("change");
+      toggle.dispatchEvent(event);
+    }
+  });
+}
+
+// Add smooth scrolling for all anchor links
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const targetId = this.getAttribute("href");
+    if (targetId === "#") return;
+
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 70,
+        behavior: "smooth",
+      });
+    }
+  });
 });
