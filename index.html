@@ -3,226 +3,630 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Birthday Bestie!</title>
+    <title>Celebrate | Interactive Birthday Experience</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <script src="index.js"></script>
   </head>
   <body>
-    <!-- Header Section -->
-    <header id="top">
-      <h1>Happy Birthday Bestie!</h1>
-      <p>A Special Celebration for a Special Friend</p>
-    </header>
+    <!-- Loading Screen -->
+    <!-- <div id="loading-screen">
+      <div class="loading-container">
+        <div class="loading-cake">
+          <div class="loading-layer"></div>
+          <div class="loading-layer"></div>
+          <div class="loading-layer"></div>
+          <div class="loading-candle">
+            <div class="loading-flame"></div>
+          </div>
+        </div>
+        <p>Creating your celebration...</p>
+      </div>
+    </div> -->
 
-    
-    <nav>
+    <!-- Floating Navigation -->
+    <nav id="floating-nav">
+      <div class="nav-toggle">
+        <i class="fas fa-gift"></i>
+      </div>
       <ul>
-        <li><a href="#greeting">Greeting</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#memories">Memories</a></li>
-        <li><a href="#cake">Birthday Wish</a></li>
-        <li><a href="#wishes">Send Wishes</a></li>
+        <li data-section="greeting">
+          <i class="fas fa-heart"></i><span>Greeting</span>
+        </li>
+        <li data-section="gallery">
+          <i class="fas fa-images"></i><span>Gallery</span>
+        </li>
+        <li data-section="memories">
+          <i class="fas fa-book-open"></i><span>Memories</span>
+        </li>
+        <li data-section="cake">
+          <i class="fas fa-birthday-cake"></i><span>Wish</span>
+        </li>
+        <li data-section="wishes">
+          <i class="fas fa-comment-dots"></i><span>Messages</span>
+        </li>
+        <li data-section="customize">
+          <i class="fas fa-paint-brush"></i><span>Customize</span>
+        </li>
       </ul>
     </nav>
+
+    <!-- Theme Switcher -->
+    <div id="theme-switcher">
+      <div class="theme-option" data-theme="default">
+        <div
+          class="color-preview"
+          style="background: linear-gradient(135deg, #ffcad4, #f4acb7)"
+        ></div>
+      </div>
+      <div class="theme-option" data-theme="blue">
+        <div
+          class="color-preview"
+          style="background: linear-gradient(135deg, #a6e1fa, #0e86d4)"
+        ></div>
+      </div>
+      <div class="theme-option" data-theme="green">
+        <div
+          class="color-preview"
+          style="background: linear-gradient(135deg, #c8e6c9, #66bb6a)"
+        ></div>
+      </div>
+      <div class="theme-option" data-theme="purple">
+        <div
+          class="color-preview"
+          style="background: linear-gradient(135deg, #d4c4fb, #9575cd)"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Header Section with Parallax -->
+    <header id="top" class="parallax-container">
+      <div class="parallax-layer" data-depth="0.1"></div>
+      <div class="parallax-layer" data-depth="0.2"></div>
+      <div class="parallax-layer" data-depth="0.3"></div>
+      <div class="parallax-content">
+        <h1 id="header-title">Happy Birthday Bestie!</h1>
+        <p id="header-subtitle">A Special Celebration Just For You</p>
+        <div class="scroll-down">
+          <p>Scroll Down</p>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+    </header>
 
     <!-- Main Content -->
     <main>
       <!-- Greeting Section -->
-      <section id="greeting" class="greeting">
+      <section id="greeting" class="section">
         <div class="section-title">
           <h2>For My Best Friend</h2>
+          <div class="title-decoration">
+            <span></span>
+            <i class="fas fa-heart"></i>
+            <span></span>
+          </div>
         </div>
-        <div class="greeting-text">
-          <p>To my incredible best friend,</p>
-          <p>
-            Today is all about celebrating YOU - the amazing person who brings
-            so much joy, laughter, and light into my life. Our friendship is one
-            of the most precious gifts I've ever received, and I'm so grateful
-            for every moment we've shared together.
-          </p>
-          <p>
-            From late-night talks to spontaneous adventures, from silly jokes to
-            deep conversations - each memory we've created together is treasured
-            in my heart. You've been there through everything, and I want you to
-            know how much that means to me.
-          </p>
-          <p>
-            May this birthday bring you all the happiness, love, and wonderful
-            surprises you deserve. Here's to another year of amazing memories
-            together!
-          </p>
-          <p>With all my love,</p>
-          <p>Your Best Friend</p>
+        <div class="greeting-card">
+          <div class="greeting-card-inner">
+            <div class="greeting-card-front">
+              <div class="greeting-card-design">
+                <i class="fas fa-envelope"></i>
+                <p>Open your special message</p>
+              </div>
+            </div>
+            <div class="greeting-card-back">
+              <div class="greeting-text">
+                <p>To my incredible best friend,</p>
+                <p>
+                  Today is all about celebrating YOU - the amazing person who
+                  brings so much joy, laughter, and light into my life. Our
+                  friendship is one of the most precious gifts I've ever
+                  received, and I'm so grateful for every moment we've shared
+                  together.
+                </p>
+                <p>
+                  From late-night talks to spontaneous adventures, from silly
+                  jokes to deep conversations - each memory we've created
+                  together is treasured in my heart. You've been there through
+                  everything, and I want you to know how much that means to me.
+                </p>
+                <p>
+                  May this birthday bring you all the happiness, love, and
+                  wonderful surprises you deserve. Here's to another year of
+                  amazing memories together!
+                </p>
+                <p class="greeting-signature">With all my love,</p>
+                <p class="greeting-signature">Your Best Friend</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- Gallery Section -->
-      <section id="gallery" class="gallery">
+      <section id="gallery" class="section">
         <div class="section-title">
           <h2>Our Photo Gallery</h2>
-        </div>
-        <div class="gallery-container">
-          <div class="gallery-item">
-            <img src="/api/placeholder/400/320" alt="Memory 1" />
-            <div class="gallery-caption">Our first road trip together</div>
+          <div class="title-decoration">
+            <span></span>
+            <i class="fas fa-camera"></i>
+            <span></span>
           </div>
-          <div class="gallery-item">
-            <img src="/api/placeholder/400/320" alt="Memory 2" />
-            <div class="gallery-caption">
-              That time we got lost and found the best coffee shop
+        </div>
+
+        <div class="gallery-filter">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="adventures">
+            Adventures
+          </button>
+          <button class="filter-btn" data-filter="celebrations">
+            Celebrations
+          </button>
+          <button class="filter-btn" data-filter="everyday">Everyday</button>
+        </div>
+
+        <div class="gallery-container">
+          <div class="gallery-item" data-category="adventures">
+            <div class="gallery-item-inner">
+              <img src="/api/placeholder/400/320" alt="Memory 1" />
+              <div class="gallery-caption">
+                <h3>First Road Trip</h3>
+                <p>Our first adventure on the open road</p>
+                <div class="gallery-date">June 2023</div>
+              </div>
             </div>
           </div>
-          <div class="gallery-item">
-            <img src="/api/placeholder/400/320" alt="Memory 3" />
-            <div class="gallery-caption">Birthday celebration last year</div>
+          <div class="gallery-item" data-category="everyday">
+            <div class="gallery-item-inner">
+              <img src="/api/placeholder/400/320" alt="Memory 2" />
+              <div class="gallery-caption">
+                <h3>Hidden Coffee Shop</h3>
+                <p>That time we got lost and found the best coffee shop</p>
+                <div class="gallery-date">August 2023</div>
+              </div>
+            </div>
           </div>
-          <div class="gallery-item">
-            <img src="/api/placeholder/400/320" alt="Memory 4" />
-            <div class="gallery-caption">Summer beach day</div>
+          <div class="gallery-item" data-category="celebrations">
+            <div class="gallery-item-inner">
+              <img src="/api/placeholder/400/320" alt="Memory 3" />
+              <div class="gallery-caption">
+                <h3>Last Birthday</h3>
+                <p>Birthday celebration last year</p>
+                <div class="gallery-date">May 2024</div>
+              </div>
+            </div>
           </div>
-          <div class="gallery-item">
-            <img src="/api/placeholder/400/320" alt="Memory 5" />
-            <div class="gallery-caption">Midnight snack run</div>
+          <div class="gallery-item" data-category="adventures">
+            <div class="gallery-item-inner">
+              <img src="/api/placeholder/400/320" alt="Memory 4" />
+              <div class="gallery-caption">
+                <h3>Beach Day</h3>
+                <p>Summer beach day</p>
+                <div class="gallery-date">July 2024</div>
+              </div>
+            </div>
           </div>
-          <div class="gallery-item">
-            <img src="/api/placeholder/400/320" alt="Memory 6" />
-            <div class="gallery-caption">Our favorite hiking spot</div>
+          <div class="gallery-item" data-category="everyday">
+            <div class="gallery-item-inner">
+              <img src="/api/placeholder/400/320" alt="Memory 5" />
+              <div class="gallery-caption">
+                <h3>Midnight Cravings</h3>
+                <p>Midnight snack run</p>
+                <div class="gallery-date">September 2024</div>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-item" data-category="adventures">
+            <div class="gallery-item-inner">
+              <img src="/api/placeholder/400/320" alt="Memory 6" />
+              <div class="gallery-caption">
+                <h3>Mountain View</h3>
+                <p>Our favorite hiking spot</p>
+                <div class="gallery-date">October 2024</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- Photo Modal -->
-      <div class="modal">
+      <div class="modal" id="gallery-modal">
         <span class="close-modal">&times;</span>
         <div class="modal-content">
-          <img class="modal-img" src="" alt="Enlarged photo" />
-          <div class="modal-caption"></div>
+          <div class="modal-nav prev-photo">
+            <i class="fas fa-chevron-left"></i>
+          </div>
+          <div class="modal-main">
+            <img class="modal-img" src="" alt="Enlarged photo" />
+            <div class="modal-info">
+              <h3 class="modal-title"></h3>
+              <p class="modal-description"></p>
+              <div class="modal-date"></div>
+            </div>
+          </div>
+          <div class="modal-nav next-photo">
+            <i class="fas fa-chevron-right"></i>
+          </div>
         </div>
       </div>
 
       <!-- Memories Section -->
-      <section id="memories" class="memories">
+      <section id="memories" class="section">
         <div class="section-title">
           <h2>Our Special Memories</h2>
+          <div class="title-decoration">
+            <span></span>
+            <i class="fas fa-book"></i>
+            <span></span>
+          </div>
         </div>
-        <div class="memory-timeline">
-          <div class="memory-item">
-            <div class="memory-date">September 2018</div>
-            <div class="memory-text">
-              Remember when we first met? You were wearing that blue sweater and
-              we bonded over our shared love for the same obscure book. Who
-              would have thought that conversation would lead to such an amazing
-              friendship?
-            </div>
+
+        <div class="memory-controls">
+          <button class="memory-nav prev-memory">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="memory-indicator">
+            <span class="current-memory">1</span>/<span class="total-memories"
+              >6</span
+            >
           </div>
-          <div class="memory-item">
-            <div class="memory-date">December 2019</div>
-            <div class="memory-text">
-              Our first Christmas together! We spent the whole day baking
-              cookies, watching holiday movies, and exchanging thoughtful gifts.
-              Your face when you opened that custom necklace was priceless!
+          <button class="memory-nav next-memory">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <div class="memory-carousel">
+          <div class="memory-timeline">
+            <div class="memory-item active" data-memory="1">
+              <div class="memory-icon">
+                <i class="fas fa-user-friends"></i>
+              </div>
+              <div class="memory-content">
+                <div class="memory-date">September 2022</div>
+                <div class="memory-text">
+                  Remember when we first met? You were wearing that blue sweater
+                  and we bonded over our shared love for the same obscure book.
+                  Who would have thought that conversation would lead to such an
+                  amazing friendship?
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="memory-item">
-            <div class="memory-date">July 2020</div>
-            <div class="memory-text">
-              The summer road trip where our car broke down in the middle of
-              nowhere. We ended up camping under the stars while waiting for
-              help. What started as a disaster turned into one of our most
-              magical memories.
+            <div class="memory-item" data-memory="2">
+              <div class="memory-icon">
+                <i class="fas fa-gift"></i>
+              </div>
+              <div class="memory-content">
+                <div class="memory-date">December 2022</div>
+                <div class="memory-text">
+                  Our first Christmas together! We spent the whole day baking
+                  cookies, watching holiday movies, and exchanging thoughtful
+                  gifts. Your face when you opened that custom necklace was
+                  priceless!
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="memory-item">
-            <div class="memory-date">February 2021</div>
-            <div class="memory-text">
-              When you helped me through that tough time, staying up all night
-              on the phone just to make sure I was okay. Your kindness and
-              support meant everything to me.
+            <div class="memory-item" data-memory="3">
+              <div class="memory-icon">
+                <i class="fas fa-car-side"></i>
+              </div>
+              <div class="memory-content">
+                <div class="memory-date">July 2023</div>
+                <div class="memory-text">
+                  The summer road trip where our car broke down in the middle of
+                  nowhere. We ended up camping under the stars while waiting for
+                  help. What started as a disaster turned into one of our most
+                  magical memories.
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="memory-item">
-            <div class="memory-date">October 2022</div>
-            <div class="memory-text">
-              The Halloween party where we showed up in matching costumes
-              without planning it! Everyone thought we coordinated, but it was
-              just another example of our weird best friend telepathy.
+            <div class="memory-item" data-memory="4">
+              <div class="memory-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="memory-content">
+                <div class="memory-date">February 2024</div>
+                <div class="memory-text">
+                  When you helped me through that tough time, staying up all
+                  night on the phone just to make sure I was okay. Your kindness
+                  and support meant everything to me.
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="memory-item">
-            <div class="memory-date">March 2023</div>
-            <div class="memory-text">
-              Our spontaneous weekend getaway where we tried all those
-              adventurous activities. I still can't believe you convinced me to
-              go bungee jumping!
+            <div class="memory-item" data-memory="5">
+              <div class="memory-icon">
+                <i class="fas fa-mask"></i>
+              </div>
+              <div class="memory-content">
+                <div class="memory-date">October 2024</div>
+                <div class="memory-text">
+                  The Halloween party where we showed up in matching costumes
+                  without planning it! Everyone thought we coordinated, but it
+                  was just another example of our weird best friend telepathy.
+                </div>
+              </div>
+            </div>
+            <div class="memory-item" data-memory="6">
+              <div class="memory-icon">
+                <i class="fas fa-mountain"></i>
+              </div>
+              <div class="memory-content">
+                <div class="memory-date">March 2025</div>
+                <div class="memory-text">
+                  Our spontaneous weekend getaway where we tried all those
+                  adventurous activities. I still can't believe you convinced me
+                  to go bungee jumping!
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Birthday Cake Section -->
-      <section id="cake" class="cake-section">
+      <section id="cake" class="section">
         <div class="section-title">
           <h2>Make a Birthday Wish</h2>
-        </div>
-        <div class="cake-container">
-          <div class="cake">
-            <div class="cake-base"></div>
-            <div class="cake-middle"></div>
-            <div class="cake-top"></div>
-            <div class="candle"></div>
-            <div class="flame"></div>
+          <div class="title-decoration">
+            <span></span>
+            <i class="fas fa-birthday-cake"></i>
+            <span></span>
           </div>
         </div>
-        <p>Click the cake to make a wish!</p>
+
+        <div class="cake-scene">
+          <div class="cake-container">
+            <div class="cake">
+              <div class="cake-base"></div>
+              <div class="cake-middle"></div>
+              <div class="cake-top"></div>
+              <div class="candles">
+                <div class="candle">
+                  <div class="candle-stick"></div>
+                  <div class="flame"></div>
+                </div>
+                <div class="candle">
+                  <div class="candle-stick"></div>
+                  <div class="flame"></div>
+                </div>
+                <div class="candle">
+                  <div class="candle-stick"></div>
+                  <div class="flame"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="cake-instruction">
+            <i class="fas fa-wind"></i> Blow on the candles to make a wish!
+            <span class="mic-icon">
+              <i class="fas fa-microphone"></i>
+            </span>
+          </p>
+          <button class="cake-button">Click to Blow</button>
+        </div>
       </section>
 
-        <div class="wishes-display" id="wishes-container">
-          <!-- Sample wishes -->
-          <div class="wish-card">
-            <div class="wish-sender">Sarah</div>
-            <div class="wish-message">
-              Happy birthday to the most amazing friend anyone could ask for!
-              May your day be filled with joy and laughter!
+      <!-- Wishes Section -->
+      <section id="wishes" class="section">
+        <div class="section-title">
+          <h2>Birthday Messages</h2>
+          <div class="title-decoration">
+            <span></span>
+            <i class="fas fa-envelope-open-text"></i>
+            <span></span>
+          </div>
+        </div>
+
+        <div class="wishes-container">
+          <div class="wishes-form">
+            <h3>Send Your Wishes</h3>
+            <form id="birthday-wish-form">
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  required
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="message">Your Birthday Message</label>
+                <textarea
+                  id="message"
+                  required
+                  placeholder="Write your birthday wishes here..."
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="emoji">Select an Emoji</label>
+                <div class="emoji-picker">
+                  <span class="emoji" data-emoji="❤️">❤️</span>
+                  <span class="emoji" data-emoji="🎂">🎂</span>
+                  <span class="emoji" data-emoji="🎁">🎁</span>
+                  <span class="emoji" data-emoji="🎉">🎉</span>
+                  <span class="emoji" data-emoji="🥳">🥳</span>
+                  <span class="emoji" data-emoji="🌟">🌟</span>
+                </div>
+                <input type="hidden" id="emoji" value="❤️" />
+              </div>
+              <button type="submit" class="btn">Send Wishes</button>
+            </form>
+          </div>
+
+          <div class="wishes-display" id="wishes-container">
+            <!-- Sample wishes -->
+            <div class="wish-card" data-emoji="🎂">
+              <div class="wish-emoji">🎂</div>
+              <div class="wish-content">
+                <div class="wish-sender">Sarah</div>
+                <div class="wish-message">
+                  Happy birthday to the most amazing friend anyone could ask
+                  for! May your day be filled with joy and laughter!
+                </div>
+                <div class="wish-time">2 hours ago</div>
+              </div>
+            </div>
+            <div class="wish-card" data-emoji="🎉">
+              <div class="wish-emoji">🎉</div>
+              <div class="wish-content">
+                <div class="wish-sender">Michael</div>
+                <div class="wish-message">
+                  Wishing you the happiest of birthdays! Thanks for always being
+                  such a wonderful friend to everyone around you.
+                </div>
+                <div class="wish-time">5 hours ago</div>
+              </div>
+            </div>
+            <div class="wish-card" data-emoji="❤️">
+              <div class="wish-emoji">❤️</div>
+              <div class="wish-content">
+                <div class="wish-sender">Emma</div>
+                <div class="wish-message">
+                  Happy birthday! Can't wait to celebrate with you this weekend.
+                  You deserve all the cake and presents!
+                </div>
+                <div class="wish-time">Yesterday</div>
+              </div>
             </div>
           </div>
-          <div class="wish-card">
-            <div class="wish-sender">Michael</div>
-            <div class="wish-message">
-              Wishing you the happiest of birthdays! Thanks for always being
-              such a wonderful friend to everyone around you.
+        </div>
+      </section>
+
+      <!-- Customize Section -->
+      <section id="customize" class="section">
+        <div class="section-title">
+          <h2>Customize This Page</h2>
+          <div class="title-decoration">
+            <span></span>
+            <i class="fas fa-sliders-h"></i>
+            <span></span>
+          </div>
+        </div>
+
+        <div class="customize-container">
+          <div class="customize-group">
+            <h3>Personalize</h3>
+            <div class="form-group">
+              <label for="custom-name">Change Name</label>
+              <input type="text" id="custom-name" placeholder="Enter name" />
+            </div>
+            <div class="form-group">
+              <label for="custom-header">Change Header</label>
+              <input
+                type="text"
+                id="custom-header"
+                placeholder="Enter header text"
+              />
             </div>
           </div>
-          <div class="wish-card">
-            <div class="wish-sender">Emma</div>
-            <div class="wish-message">
-              Happy birthday! Can't wait to celebrate with you this weekend. You
-              deserve all the cake and presents!
+
+          <div class="customize-group">
+            <h3>Theme Options</h3>
+            <div class="theme-options">
+              <div class="theme-preview default active" data-theme="default">
+                <div class="theme-color"></div>
+                <span>Pink</span>
+              </div>
+              <div class="theme-preview blue" data-theme="blue">
+                <div class="theme-color"></div>
+                <span>Blue</span>
+              </div>
+              <div class="theme-preview green" data-theme="green">
+                <div class="theme-color"></div>
+                <span>Green</span>
+              </div>
+              <div class="theme-preview purple" data-theme="purple">
+                <div class="theme-color"></div>
+                <span>Purple</span>
+              </div>
             </div>
           </div>
+
+          <div class="customize-group">
+            <h3>Effects</h3>
+            <div class="toggle-group">
+              <label for="confetti-toggle">Confetti</label>
+              <label class="switch">
+                <input type="checkbox" id="confetti-toggle" checked />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div class="toggle-group">
+              <label for="balloons-toggle">Balloons</label>
+              <label class="switch">
+                <input type="checkbox" id="balloons-toggle" checked />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div class="toggle-group">
+              <label for="sound-toggle">Sound Effects</label>
+              <label class="switch">
+                <input type="checkbox" id="sound-toggle" checked />
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+
+          <button id="save-customizations" class="btn">Save Changes</button>
         </div>
       </section>
     </main>
 
     <!-- Footer -->
     <footer>
-      <p>Made with <span class="heart">♥</span> for my best friend</p>
-      <p>Birthday 2025</p>
+      <div class="footer-content">
+        <div class="footer-decoration">
+          <div class="decoration-item"></div>
+          <div class="decoration-item"></div>
+          <div class="decoration-item"></div>
+        </div>
+        <p>Made with <span class="heart">♥</span> for my best friend</p>
+        <p>Birthday 2025</p>
+        <div class="social-share">
+          <p>Share this celebration:</p>
+          <div class="social-icons">
+            <a href="#" class="social-icon"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
     </footer>
 
     <!-- Balloons -->
     <div class="balloons-container" id="balloons-container"></div>
 
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confetti-container"></div>
+
     <!-- Music Player -->
-    <div class="music-player" id="music-toggle">
-      <i class="fas fa-music"></i>
+    <!-- <div class="music-player" id="music-toggle">
+      <div class="music-disc">
+        <div class="disc-inner"></div>
+      </div>
+      <div class="music-controls">
+        <i class="fas fa-play"></i>
+      </div>
+    </div> -->
+    <!-- <audio id="birthday-music" loop> -->
+    <!-- You would need to add your own audio file here -->
+    <!-- For demonstration purposes, we'll use a placeholder -->
+    <!-- </audio> -->
+
+    <!-- Notification Toast -->
+    <div class="toast" id="notification-toast">
+      <div class="toast-content">
+        <i class="fas fa-info-circle toast-icon"></i>
+        <div class="toast-message">Your changes have been saved!</div>
+      </div>
+      <div class="toast-progress"></div>
     </div>
-    <audio id="birthday-music" loop>
-      <!-- You would need to add your own audio file here -->
-      <!-- For demonstration purposes, we'll use a placeholder -->
-    </audio>
+
+    <script src="script.js"></script>
   </body>
 </html>
