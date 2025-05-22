@@ -493,18 +493,18 @@ a {
 /* Greeting Section */
 .greeting-card {
   perspective: 1000px;
-  max-width: 600px;
-  margin: 0 auto;
+  width: 700px;
+  margin: auto;
+  margin-bottom: 40px;
+  height: 400px; /* or height that fits both front & back content */
+  position: relative;
 }
 
 .greeting-card-inner {
-  position: relative;
   width: 100%;
-  height: 400px;
-  text-align: center;
-  transition: transform 0.8s;
   transform-style: preserve-3d;
-  cursor: pointer;
+  transition: transform 0.8s ease-in-out;
+  position: relative;
 }
 
 .greeting-card:hover .greeting-card-inner {
@@ -513,43 +513,26 @@ a {
 
 .greeting-card-front,
 .greeting-card-back {
+  backface-visibility: hidden;
   position: absolute;
   width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  padding: 30px;
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
 }
 
 .greeting-card-front {
-  background: var(--gradient);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.greeting-card-design {
+  background: var(--primary);
+  color: var(--dark);
   text-align: center;
-}
-
-.greeting-card-design i {
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
-
-.greeting-card-design p {
-  font-size: 1.2rem;
+  box-shadow: var(--shadow);
 }
 
 .greeting-card-back {
-  background-color: white;
+  background: var(--light);
+  color: var(--dark);
   transform: rotateY(180deg);
-  overflow-y: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  box-shadow: var(--shadow);
 }
 
 .greeting-text {
@@ -565,6 +548,26 @@ a {
   font-style: italic;
   text-align: right;
   margin-top: 20px;
+}
+.greeting-card-design i {
+  color: var(--accent);
+  font-size: 3rem;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+@media (max-width: 600px) {
+  .greeting-card {
+    width: 90%;
+  }
 }
 
 /* Gallery Section */
@@ -837,123 +840,310 @@ a {
 }
 
 /* Cake Section */
+/* Decoration under section title */
+.title-decoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.title-decoration span {
+  width: 50px;
+  height: 3px;
+  background: var(--gradient);
+  border-radius: 2px;
+}
+
+.title-decoration i {
+  font-size: 1.8rem;
+  color: var(--secondary);
+}
+
+/* Scene layout */
 .cake-scene {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  gap: 30px;
 }
 
 .cake-container {
   position: relative;
   width: 300px;
-  height: 300px;
-  margin-bottom: 30px;
+  height: 280px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   cursor: pointer;
+  transition: var(--transition);
 }
 
+.cake-container:hover {
+  transform: scale(1.02);
+}
+
+/* Cake layout */
 .cake {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: flex-end;
 }
 
+/* Cake layers */
 .cake-base,
 .cake-middle,
 .cake-top {
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
   position: relative;
-  border-radius: 10px;
-  background-color: var(--secondary);
-  margin: 0 auto;
 }
 
 .cake-base {
   width: 200px;
   height: 60px;
+  background: var(--gradient);
+  z-index: 1;
 }
 
 .cake-middle {
-  width: 160px;
+  width: 150px;
   height: 50px;
-  bottom: 10px;
-  background-color: var(--primary);
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+  margin-top: -8px;
+  z-index: 2;
 }
 
 .cake-top {
-  width: 120px;
+  width: 100px;
   height: 40px;
-  bottom: 20px;
-  background-color: var(--secondary);
-}
-
-.candles {
-  position: absolute;
-  bottom: 150px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: space-around;
-  width: 80%;
-}
-
-.candle {
-  position: relative;
-  width: 10px;
-}
-
-.candle-stick {
-  height: 40px;
-  width: 8px;
-  background: linear-gradient(to bottom, #fdfd96 20%, #fff 100%);
-  margin: 0 auto;
-  border-radius: 4px 4px 0 0;
-}
-
-.flame {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 15px;
-  height: 25px;
-  background: linear-gradient(to bottom, #ff9d00, #ff0000);
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  animation: flicker 0.3s infinite alternate;
-}
-
-.cake-instruction {
-  font-size: 1.2rem;
-  margin-bottom: 15px;
+  background: var(--gradient);
+  margin-top: -8px;
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
 }
 
+/* Candle wrapper */
+.candles {
+  position: absolute;
+  top: -26px; /* place it on top of the cake-top */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  width: 60px;
+  z-index: 4;
+}
+
+/* Individual candle */
+.candle {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  position: relative;
+}
+
+/* Stick of candle */
+.candle-stick {
+  height: 35px;
+  width: 6px;
+  background: linear-gradient(to bottom, #fdfd96 30%, #fff 100%);
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Flame */
+.flame {
+  width: 12px;
+  height: 18px;
+  background: radial-gradient(
+    ellipse at center,
+    #ff9d00 0%,
+    #ff6b00 70%,
+    #ff0000 100%
+  );
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  animation: flicker 0.4s infinite alternate;
+  margin-bottom: -4px; /* overlap stick to appear attached */
+  position: relative;
+  z-index: 5;
+}
+
+/* Flicker animation */
+@keyframes flicker {
+  0% {
+    transform: scale(1) rotate(-1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.1) rotate(1deg);
+    opacity: 0.9;
+  }
+}
+
+/* Blow-out animation */
+.flame.blow-out {
+  animation: blowOut 0.6s ease-out forwards;
+}
+
+@keyframes blowOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.5) translateX(8px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) translateX(15px);
+  }
+}
+
+/* Instruction below cake */
+.cake-instruction {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+.cake-instruction i {
+  color: var(--secondary);
+}
+
+/* Mic icon */
 .mic-icon {
-  width: 30px;
-  height: 30px;
-  background-color: var(--primary);
+  width: 40px;
+  height: 40px;
+  background: var(--gradient);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
 }
 
+.mic-icon:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow);
+}
+
+.mic-icon i {
+  color: white;
+  font-size: 1rem;
+}
+
+/* Button */
 .cake-button {
-  background-color: var(--secondary);
+  background: var(--gradient);
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: var(--border-radius);
+  padding: 15px 30px;
+  border-radius: var(--border-radius-lg);
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
   transition: var(--transition);
+  box-shadow: var(--shadow);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .cake-button:hover {
-  background-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.cake-button:active {
+  transform: translateY(0);
+}
+
+/* Confetti styles (optional) */
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-title h2 {
+    font-size: 2rem;
+  }
+
+  .cake-container {
+    width: 250px;
+    height: 230px;
+  }
+
+  .cake-base {
+    width: 160px;
+    height: 50px;
+  }
+
+  .cake-middle {
+    width: 120px;
+    height: 40px;
+  }
+
+  .cake-top {
+    width: 80px;
+    height: 32px;
+  }
+
+  .candles {
+    width: 50px;
+    top: -22px;
+  }
+
+  .candle-stick {
+    height: 28px;
+    width: 5px;
+  }
+
+  .flame {
+    width: 10px;
+    height: 15px;
+    margin-bottom: -4px;
+  }
+
+  .cake-instruction {
+    font-size: 1.1rem;
+  }
 }
 
 /* Wishes Section */
@@ -1348,8 +1538,9 @@ footer {
 
 /* Header Styles */
 header {
-  background: var(--gradient);
-  color: white;
+  background-color: var(--header-bg);
+  transition: background-color 0.3s ease;
+  color: #1f1f1f;
   text-align: center;
   padding: 80px 20px;
   position: relative;
