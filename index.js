@@ -103,7 +103,7 @@ function initFloatingNav() {
   // Scroll to section when nav item is clicked
   navItems.forEach((item) => {
     item.addEventListener("click", function () {
-      const targetId = this.getAttribute("data-target");
+      const targetId = this.getAttribute("data-section"); // ✅ FIXED
       const targetSection = document.getElementById(targetId);
 
       if (targetSection) {
@@ -132,7 +132,7 @@ function initFloatingNav() {
 
     navItems.forEach((item) => {
       item.classList.remove("active");
-      if (item.getAttribute("data-target") === current) {
+      if (item.getAttribute("data-section") === current) {
         item.classList.add("active");
       }
     });
@@ -186,8 +186,12 @@ function initGreetingCard() {
   const greetingCard = document.querySelector(".greeting-card");
   if (!greetingCard) return;
 
-  greetingCard.addEventListener("click", function () {
-    this.querySelector(".greeting-card-inner").classList.toggle("flipped");
+  greetingCard.addEventListener("mouseenter", function () {
+    this.querySelector(".greeting-card-inner").classList.add("flipped");
+  });
+
+  greetingCard.addEventListener("mouseleave", function () {
+    this.querySelector(".greeting-card-inner").classList.remove("flipped");
   });
 }
 
@@ -353,14 +357,16 @@ function initMemories() {
 // Birthday Cake
 function initCake() {
   const cake = document.querySelector(".cake-container");
-  const flame = document.querySelector(".flame");
+  const flames = document.querySelectorAll(".flame");
   const cakeButton = document.querySelector(".cake-button");
 
-  if (!cake || !flame) return;
+  if (!cake || !flames.length) return;
 
   // Blow out candle on click
   cake.addEventListener("click", function () {
-    flame.classList.add("blow-out");
+    flames.forEach((flame) => {
+      flame.classList.add("blow-out");
+    });
 
     // Show confetti effect
     createConfetti();
@@ -368,35 +374,43 @@ function initCake() {
     // Play sound effect if available
     const blowSound = document.getElementById("blow-sound");
     if (blowSound) {
-      blowSound.play();
+      blowSound.play().catch((e) => console.log("Audio play failed:", e));
     }
 
     // Reset candle after some time
     setTimeout(function () {
-      flame.classList.remove("blow-out");
+      flames.forEach((flame) => {
+        flame.classList.remove("blow-out");
+      });
     }, 5000);
   });
 
   // Alternative blow button
   if (cakeButton) {
     cakeButton.addEventListener("click", function () {
-      flame.classList.add("blow-out");
+      flames.forEach((flame) => {
+        flame.classList.add("blow-out");
+      });
       createConfetti();
 
       const blowSound = document.getElementById("blow-sound");
       if (blowSound) {
-        blowSound.play();
+        blowSound.play().catch((e) => console.log("Audio play failed:", e));
       }
 
       setTimeout(function () {
-        flame.classList.remove("blow-out");
+        flames.forEach((flame) => {
+          flame.classList.remove("blow-out");
+        });
       }, 5000);
     });
   }
 
   // Speech recognition for blowing
-  if (window.webkitSpeechRecognition) {
-    const recognition = new webkitSpeechRecognition();
+  if (window.webkitSpeechRecognition || window.SpeechRecognition) {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = false;
 
@@ -406,20 +420,36 @@ function initCake() {
         transcript.includes("blow") ||
         transcript.includes("happy birthday")
       ) {
-        flame.classList.add("blow-out");
+        flames.forEach((flame) => {
+          flame.classList.add("blow-out");
+        });
         createConfetti();
 
         setTimeout(function () {
-          flame.classList.remove("blow-out");
+          flames.forEach((flame) => {
+            flame.classList.remove("blow-out");
+          });
         }, 5000);
       }
+    };
+
+    recognition.onerror = function (event) {
+      console.log("Speech recognition error:", event.error);
     };
 
     // Start recognition when mic button is clicked
     const micButton = document.querySelector(".mic-icon");
     if (micButton) {
       micButton.addEventListener("click", function () {
-        recognition.start();
+        try {
+          recognition.start();
+          micButton.style.backgroundColor = "#ff9d00";
+          setTimeout(() => {
+            micButton.style.backgroundColor = "var(--primary)";
+          }, 3000);
+        } catch (e) {
+          console.log("Speech recognition not available:", e);
+        }
       });
     }
   }
@@ -440,6 +470,9 @@ function initCake() {
       confetti.style.left = Math.random() * 100 + "vw";
       confetti.style.animationDuration = Math.random() * 3 + 2 + "s";
       confetti.style.animationDelay = Math.random() * 5 + "s";
+      confetti.style.animation = `confetti-fall ${
+        Math.random() * 3 + 2
+      }s linear ${Math.random() * 2}s forwards`;
       confettiContainer.appendChild(confetti);
     }
 
@@ -448,6 +481,9 @@ function initCake() {
     }, 8000);
   }
 }
+
+// Initialize when page loads
+document.addEventListener("DOMContentLoaded", initCake);
 
 // Wishes Form
 function initWishesForm() {
