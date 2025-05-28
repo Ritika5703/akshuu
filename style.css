@@ -391,7 +391,7 @@ a {
   opacity: 0;
 }
 
-.scroll-down {
+/* .scroll-down {
   position: absolute;
   bottom: 50px;
   left: 50%;
@@ -404,7 +404,7 @@ a {
 .scroll-down i {
   font-size: 1.5rem;
   margin-top: 10px;
-}
+} */
 
 @keyframes fadeInDown {
   from {
@@ -839,7 +839,8 @@ a {
   line-height: 1.8;
 }
 
-/* Cake Section */
+/* Updated Cake Section CSS - Fixed for Integration */
+
 /* Decoration under section title */
 .title-decoration {
   display: flex;
@@ -872,7 +873,7 @@ a {
 .cake-container {
   position: relative;
   width: 300px;
-  height: 280px;
+  height: 320px; /* Increased height to accommodate candles */
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -926,38 +927,32 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
-/* Candle wrapper */
+/* FIXED: Candle wrapper - properly positioned */
 .candles {
-  position: absolute;
-  top: -26px; /* place it on top of the cake-top */
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
-  justify-content: space-between;
-  width: 60px;
+  gap: 15px; /* Better spacing between candles */
+  justify-content: center;
+  align-items: flex-end; /* IMPORTANT: Changed to flex-end */
+  /* position: absolute;
+  top: -50px; */
+  /* left: 50%; */
+  transform: translateX(-50%);
   z-index: 4;
 }
 
-/* Individual candle */
+/* FIXED: Individual candle - proper structure */
 .candle {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column; /* FIXED: Changed from column-reverse */
   align-items: center;
   position: relative;
 }
 
-/* Stick of candle */
-.candle-stick {
-  height: 35px;
-  width: 6px;
-  background: linear-gradient(to bottom, #fdfd96 30%, #fff 100%);
-  border-radius: 3px 3px 0 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+/* FIXED: Flame positioning */
 
-/* Flame */
 .flame {
   width: 12px;
   height: 18px;
@@ -969,9 +964,20 @@ a {
   );
   border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
   animation: flicker 0.4s infinite alternate;
-  margin-bottom: -4px; /* overlap stick to appear attached */
   position: relative;
   z-index: 5;
+  margin-bottom: 2px; /* FIXED: Small gap instead of negative margin */
+  order: 1; /* Ensure flame comes first */
+}
+
+/* FIXED: Stick positioning */
+.candle-stick {
+  height: 35px;
+  width: 6px;
+  background: linear-gradient(to bottom, #fdfd96 30%, #fff 100%);
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  order: 2; /* Ensure stick comes after flame */
 }
 
 /* Flicker animation */
@@ -1070,7 +1076,7 @@ a {
   transform: translateY(0);
 }
 
-/* Confetti styles (optional) */
+/* Confetti styles */
 .confetti-container {
   position: fixed;
   top: 0;
@@ -1107,7 +1113,7 @@ a {
 
   .cake-container {
     width: 250px;
-    height: 230px;
+    height: 270px; /* Adjusted for mobile */
   }
 
   .cake-base {
@@ -1126,8 +1132,8 @@ a {
   }
 
   .candles {
-    width: 50px;
-    top: -22px;
+    top: -40px; /* Adjusted for mobile */
+    gap: 12px;
   }
 
   .candle-stick {
@@ -1138,14 +1144,12 @@ a {
   .flame {
     width: 10px;
     height: 15px;
-    margin-bottom: -4px;
   }
 
   .cake-instruction {
     font-size: 1.1rem;
   }
 }
-
 /* Wishes Section */
 .wishes-container {
   display: grid;
@@ -1772,21 +1776,23 @@ section {
 
 .cake-top {
   width: 100px;
-  height: 30px;
-  background-color: var(--secondary);
-  border-radius: 6px;
-  margin: -5px auto 0;
-  position: relative;
-  z-index: 2;
+  height: 40px;
+  background: var(--gradient);
+  margin-top: -8px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* necessary for absolute children like .candles */
 }
 
 .candle {
   width: 8px;
   height: 40px;
   background: linear-gradient(to bottom, #fdfd96 20%, #fff 100%);
-  position: absolute;
-  bottom: 125px;
-  left: 50%;
+  /* position: absolute; */
+  bottom: 39px;
+  left: 60%;
   transform: translateX(-50%);
   z-index: 3;
   border-radius: 4px 4px 0 0;
@@ -1798,8 +1804,8 @@ section {
   background: linear-gradient(to bottom, #ff9d00, #ff0000);
   border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
   position: absolute;
-  bottom: 165px;
-  left: 50%;
+  /* bottom: 165px;
+  left: 50%; */
   transform: translateX(-50%);
   z-index: 4;
   animation: flicker 0.3s infinite alternate;
