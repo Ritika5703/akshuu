@@ -198,107 +198,123 @@ function initGreetingCard() {
 // Gallery and Modal
 function initGallery() {
   const galleryItems = document.querySelectorAll(".gallery-item");
-  const modal = document.querySelector(".modal");
-  const modalImg = document.querySelector(".modal-img");
-  const modalCaption = document.querySelector(".modal-caption");
-  const closeModal = document.querySelector(".close-modal");
-  const prevBtn = document.querySelector(".prev-photo");
-  const nextBtn = document.querySelector(".next-photo");
+  const modal = document.getElementById("gallery-modal");
+  const modalImg = modal.querySelector(".modal-img");
+  let modalVideo = modal.querySelector(".modal-video");
+  const modalTitle = modal.querySelector(".modal-title");
+  const modalDescription = modal.querySelector(".modal-description");
+  const modalDate = modal.querySelector(".modal-date");
+  const closeModal = modal.querySelector(".close-modal");
+  const prevBtn = modal.querySelector(".prev-photo");
+  const nextBtn = modal.querySelector(".next-photo");
+
   let currentIndex = 0;
 
   if (!galleryItems.length || !modal) return;
 
-  // Filter gallery items
-  const filterBtns = document.querySelectorAll(".filter-btn");
-  if (filterBtns.length) {
-    filterBtns.forEach((btn) => {
-      btn.addEventListener("click", function () {
-        const filter = this.getAttribute("data-filter");
-
-        filterBtns.forEach((btn) => btn.classList.remove("active"));
-        this.classList.add("active");
-
-        galleryItems.forEach((item) => {
-          if (filter === "all" || item.classList.contains(filter)) {
-            item.style.display = "block";
-          } else {
-            item.style.display = "none";
-          }
-        });
-      });
-    });
+  // Create video element inside modal if not present
+  if (!modalVideo) {
+    modalVideo = document.createElement("video");
+    modalVideo.classList.add("modal-video");
+    modalVideo.controls = true;
+    modalVideo.style.display = "none";
+    // Insert video before modalImg so they occupy same space
+    modalImg.parentNode.insertBefore(modalVideo, modalImg);
   }
 
-  // Open modal when gallery item is clicked
+  function showItem(index) {
+    const item = galleryItems[index];
+
+    // Media
+    const img = item.querySelector("img");
+    const video = item.querySelector("video");
+
+    // Caption info
+    const caption = item.querySelector(".gallery-caption");
+    const title = caption ? caption.querySelector("h3")?.textContent || "" : "";
+    const description = caption
+      ? caption.querySelector("p")?.textContent || ""
+      : "";
+    const date = caption
+      ? caption.querySelector(".gallery-date")?.textContent || ""
+      : "";
+
+    if (img) {
+      modalImg.src = img.src;
+      modalImg.style.display = "block";
+
+      modalVideo.pause();
+      modalVideo.removeAttribute("src");
+      modalVideo.style.display = "none";
+    } else if (video) {
+      modalVideo.src = video.src;
+      modalVideo.style.display = "block";
+      modalVideo.load();
+      modalVideo.play();
+
+      modalImg.style.display = "none";
+      modalImg.removeAttribute("src");
+    }
+
+    modalTitle.textContent = title;
+    modalDescription.textContent = description;
+    modalDate.textContent = date;
+
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+
+    currentIndex = index;
+  }
+
   galleryItems.forEach((item, index) => {
-    item.addEventListener("click", function () {
-      const imgSrc = this.querySelector("img").getAttribute("src");
-      const caption = this.querySelector(".gallery-caption").textContent;
-
-      modalImg.setAttribute("src", imgSrc);
-      modalCaption.textContent = caption;
-      modal.classList.add("active");
-      currentIndex = index;
-
-      // Disable scrolling on body
-      document.body.style.overflow = "hidden";
+    item.addEventListener("click", () => {
+      showItem(index);
     });
   });
 
-  // Close modal
-  if (closeModal) {
-    closeModal.addEventListener("click", function () {
-      modal.classList.remove("active");
-      document.body.style.overflow = "auto";
-    });
-  }
+  closeModal.addEventListener("click", () => {
+    modal.classList.remove("active");
+    modalVideo.pause();
+    modalVideo.removeAttribute("src");
+    document.body.style.overflow = "auto";
+  });
 
-  // Navigate through gallery with arrow keys
-  document.addEventListener("keydown", function (e) {
+  // Close modal on clicking outside content
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("active");
+      modalVideo.pause();
+      modalVideo.removeAttribute("src");
+      document.body.style.overflow = "auto";
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
     if (!modal.classList.contains("active")) return;
 
     if (e.key === "Escape") {
       modal.classList.remove("active");
+      modalVideo.pause();
+      modalVideo.removeAttribute("src");
       document.body.style.overflow = "auto";
-    } else if (e.key === "ArrowLeft") {
-      navigateGallery(-1);
-    } else if (e.key === "ArrowRight") {
-      navigateGallery(1);
+    }
+
+    if (e.key === "ArrowRight") {
+      showItem((currentIndex + 1) % galleryItems.length);
+    }
+
+    if (e.key === "ArrowLeft") {
+      showItem((currentIndex - 1 + galleryItems.length) % galleryItems.length);
     }
   });
 
-  // Navigation buttons
-  if (prevBtn) {
-    prevBtn.addEventListener("click", function () {
-      navigateGallery(-1);
-    });
-  }
+  nextBtn.addEventListener("click", () => {
+    showItem((currentIndex + 1) % galleryItems.length);
+  });
 
-  if (nextBtn) {
-    nextBtn.addEventListener("click", function () {
-      navigateGallery(1);
-    });
-  }
-
-  // Navigate through gallery
-  function navigateGallery(direction) {
-    currentIndex += direction;
-
-    if (currentIndex < 0) {
-      currentIndex = galleryItems.length - 1;
-    } else if (currentIndex >= galleryItems.length) {
-      currentIndex = 0;
-    }
-
-    const imgSrc = galleryItems[currentIndex]
-      .querySelector("img")
-      .getAttribute("src");
-    const caption =
-      galleryItems[currentIndex].querySelector(".gallery-caption").textContent;
-
-    modalImg.setAttribute("src", imgSrc);
-    modalCaption.textContent = caption;
-  }
+  prevBtn.addEventListener("click", () => {
+    showItem((currentIndex - 1 + galleryItems.length) % galleryItems.length);
+  });
 }
 
 // Memories Timeline

@@ -55,6 +55,23 @@ body.theme-purple {
   --shadow-sm: 0 5px 15px rgba(149, 117, 205, 0.2);
   --shadow-lg: 0 15px 40px rgba(149, 117, 205, 0.4);
 }
+body.theme-blue {
+  --cake-top-gradient: linear-gradient(135deg, #42a5f5, #03a9f4);
+  --cake-middle-gradient: linear-gradient(135deg, #2196f3, #00bcd4);
+  --cake-base-gradient: linear-gradient(135deg, #1e88e5, #0288d1);
+}
+
+body.theme-pink {
+  --cake-top-gradient: linear-gradient(135deg, #f06292, #f48fb1);
+  --cake-middle-gradient: linear-gradient(135deg, #ec407a, #f06292);
+  --cake-base-gradient: linear-gradient(135deg, #e91e63, #d81b60);
+}
+
+body.theme-purple {
+  --cake-top-gradient: linear-gradient(135deg, #ab47bc, #ba68c8);
+  --cake-middle-gradient: linear-gradient(135deg, #9c27b0, #ce93d8);
+  --cake-base-gradient: linear-gradient(135deg, #8e24aa, #7b1fa2);
+}
 
 /* ==========================
    Base Styles
@@ -481,7 +498,7 @@ a {
 .title-decoration span {
   height: 2px;
   width: 50px;
-  background-color: var(--primary);
+  background-color: var(--cake-base-gradient);
 }
 
 .title-decoration i {
@@ -609,6 +626,12 @@ a {
   transition: var(--transition);
   cursor: pointer;
 }
+.gallery-item video {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
 
 .gallery-item:hover {
   transform: translateY(-10px);
@@ -690,10 +713,28 @@ a {
 }
 
 .modal-main {
-  background-color: white;
   border-radius: var(--border-radius);
   overflow: hidden;
   max-height: 90vh;
+}
+.modal-main {
+  display: flex;
+  justify-content: center; /* horizontal center */
+  align-items: center; /* vertical center */
+  gap: 20px; /* some space between media and info */
+  padding: 20px;
+  max-width: 90vw; /* responsive width */
+  max-height: 80vh; /* limit height so content fits */
+  overflow: hidden;
+}
+
+.modal-img,
+.modal-video {
+  max-width: 60vw; /* responsive max width */
+  max-height: 70vh; /* responsive max height */
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  object-fit: contain; /* keep aspect ratio */
 }
 
 .modal-img {
@@ -735,11 +776,19 @@ a {
 
 .close-modal {
   position: absolute;
-  top: -40px;
-  right: 0;
-  font-size: 2rem;
+  top: 15px;
+  right: 20px;
+  font-size: 30px;
+  font-weight: bold;
   color: white;
   cursor: pointer;
+  z-index: 1001; /* make sure it's above modal content */
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+  color: #f44336; /* red on hover */
 }
 
 /* Memories Section */
@@ -852,7 +901,7 @@ a {
 .title-decoration span {
   width: 50px;
   height: 3px;
-  background: var(--gradient);
+  background: var(--cake-base-gradient);
   border-radius: 2px;
 }
 
@@ -906,14 +955,14 @@ a {
 .cake-base {
   width: 200px;
   height: 60px;
-  background: var(--gradient);
+  background: var(--cake-base-gradient);
   z-index: 1;
 }
 
 .cake-middle {
   width: 150px;
   height: 50px;
-  background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+  background: var(--cake-middle-gradient);
   margin-top: -8px;
   z-index: 2;
 }
@@ -921,7 +970,7 @@ a {
 .cake-top {
   width: 100px;
   height: 40px;
-  background: var(--gradient);
+  background: var(--cake-top-gradient);
   margin-top: -8px;
   z-index: 3;
   display: flex;
@@ -1031,7 +1080,7 @@ a {
 .mic-icon {
   width: 40px;
   height: 40px;
-  background: var(--gradient);
+  background: var(--cake-base-gradient);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1053,7 +1102,7 @@ a {
 
 /* Button */
 .cake-button {
-  background: var(--gradient);
+  background: var(--cake-base-gradient);
   color: white;
   border: none;
   padding: 15px 30px;
@@ -1777,7 +1826,7 @@ section {
 .cake-top {
   width: 100px;
   height: 40px;
-  background: var(--gradient);
+  background: var(--cake-top-gradient);
   margin-top: -8px;
   z-index: 3;
   display: flex;
@@ -1934,14 +1983,14 @@ section {
   padding: 10px 0;
 }
 
-.close-modal {
+/* .close-modal {
   position: absolute;
   top: -40px;
   right: 0;
   color: white;
   font-size: 2rem;
   cursor: pointer;
-}
+} */
 
 /* Animation for Cake Blowing */
 @keyframes blowOut {
