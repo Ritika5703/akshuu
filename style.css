@@ -498,7 +498,7 @@ a {
 .title-decoration span {
   height: 2px;
   width: 50px;
-  background-color: var(--cake-base-gradient);
+  background-color: var(--primary);
 }
 
 .title-decoration i {
@@ -901,7 +901,7 @@ a {
 .title-decoration span {
   width: 50px;
   height: 3px;
-  background: var(--cake-base-gradient);
+  background: var(--primary);
   border-radius: 2px;
 }
 
@@ -1102,7 +1102,7 @@ a {
 
 /* Button */
 .cake-button {
-  background: var(--cake-base-gradient);
+  background: var(--primary);
   color: white;
   border: none;
   padding: 15px 30px;
@@ -1826,7 +1826,7 @@ section {
 .cake-top {
   width: 100px;
   height: 40px;
-  background: var(--cake-top-gradient);
+  background: var(--secondary);
   margin-top: -8px;
   z-index: 3;
   display: flex;
